@@ -27,7 +27,7 @@ func checkFiles(root string, files []string) error {
 		stat, _ := os.Stat(file)
 
 		if stat.IsDir() {
-			return fmt.Errorf("Is a directory: '%s'\n", cwd)
+			return fmt.Errorf("Is a directory: '%s'\n", file)
 		}
 
 		if root != filepath.Dir(file) {
@@ -44,11 +44,11 @@ func expandPattern(pattern string) ([]string, error) {
 
 	matches, err := filepath.Glob(pattern)
 	if err != nil {
-		return nil, fmt.Errorf("Bad patten '%q: %v'\n", pattern, err)
+		return nil, fmt.Errorf("Bad patten %q: %v\n", pattern, err)
 	}
 
 	if len(matches) == 0 {
-		return nil, fmt.Errorf("No files found")
+		return nil, fmt.Errorf("No files found\n")
 	}
 
 	return matches, nil
