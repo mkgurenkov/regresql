@@ -20,7 +20,7 @@ against a known PostgreSQL database content.
 
 The `regresql` tool is written in Go, so:
 
-    go install github.com/dimitri/regresql
+    go install github.com/mkgurenkov/regresql
     
 This command will compile and install the command in your `$GOPATH/bin`,
 which defaults to `~/go/bin`. See <https://golang.org/doc/install> if you're

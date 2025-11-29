@@ -1,4 +1,4 @@
-module github.com/dimitri/regresql
+module github.com/mkgurenkov/regresql
 
 go 1.20
 

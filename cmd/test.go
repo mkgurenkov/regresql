@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dimitri/regresql/regresql"
+	"github.com/mkgurenkov/regresql/regresql"
 	"github.com/spf13/cobra"
 )
 
