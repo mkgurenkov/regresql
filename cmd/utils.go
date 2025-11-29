@@ -24,10 +24,8 @@ func checkFiles(root string, files []string) error {
 	}
 
 	for _, file := range files {
-		stat, err := os.Stat(file)
-		if err != nil {
-			return fmt.Errorf("No file found at '%s'\n", cwd)
-		}
+		stat, _ := os.Stat(file)
+
 		if stat.IsDir() {
 			return fmt.Errorf("Is a directory: '%s'\n", cwd)
 		}
@@ -48,5 +46,10 @@ func expandPattern(pattern string) ([]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Bad patten '%q: %v'\n", pattern, err)
 	}
+
+	if len(matches) == 0 {
+		return nil, fmt.Errorf("No files found")
+	}
+
 	return matches, nil
 }
