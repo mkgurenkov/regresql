@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // Check that given path string is a directory that exists
@@ -15,4 +16,37 @@ func checkDirectory(cwd string) error {
 		return fmt.Errorf("Not a directory: '%s'\n", cwd)
 	}
 	return nil
+}
+
+func checkFiles(root string, files []string) error {
+	if files == nil {
+		return nil
+	}
+
+	for _, file := range files {
+		stat, err := os.Stat(file)
+		if err != nil {
+			return fmt.Errorf("No file found at '%s'\n", cwd)
+		}
+		if stat.IsDir() {
+			return fmt.Errorf("Is a directory: '%s'\n", cwd)
+		}
+
+		if root != filepath.Dir(file) {
+			return fmt.Errorf("'%s' parent directory does not match the root directory: '%s'\n", file, cwd)
+		}
+	}
+	return nil
+}
+
+func expandPattern(pattern string) ([]string, error) {
+	if pattern == "no" {
+		return nil, nil
+	}
+
+	matches, err := filepath.Glob(pattern)
+	if err != nil {
+		return nil, fmt.Errorf("Bad patten '%q: %v'\n", pattern, err)
+	}
+	return matches, nil
 }

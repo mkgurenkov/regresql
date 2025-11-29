@@ -22,15 +22,14 @@ for our endeavours, we maintain a fixed two-levels data structure. The
 Printf() method dipatched on a Suite method is callable from the main
 command and shows our structure organisation:
 
-    $ regresql list
-    .
-      src/sql/
-        album-by-artist.sql
-        album-tracks.sql
-        artist.sql
-        genre-topn.sql
-        genre-tracks.sql
-
+	$ regresql list
+	.
+	  src/sql/
+	    album-by-artist.sql
+	    album-tracks.sql
+	    artist.sql
+	    genre-topn.sql
+	    genre-tracks.sql
 */
 type Suite struct {
 	Root        string
@@ -103,6 +102,25 @@ func Walk(root string) *Suite {
 	}
 	filepath.Walk(root, visit)
 
+	return suite
+}
+
+func WalkFiles(root string, files []string) *Suite {
+	suite := newSuite(root)
+
+	visit := func(path string, f os.FileInfo, err error) error {
+		for _, file := range files {
+			if path == file {
+				if filepath.Ext(path) == ".sql" {
+					suite = suite.appendPath(path)
+				} else {
+					break
+				}
+			}
+		}
+		return nil
+	}
+	filepath.Walk(root, visit)
 	return suite
 }
 

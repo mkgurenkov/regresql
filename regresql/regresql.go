@@ -85,8 +85,14 @@ case and add a value for each parameter. `)
 /*
 Update updates the expected files from the queries and their parameters.
 */
-func Update(root string) {
-	suite := Walk(root)
+func Update(root string, files []string) {
+	var suite *Suite
+	if files == nil {
+		suite = Walk(root)
+	} else {
+		suite = WalkFiles(root, files)
+	}
+
 	config, err := suite.readConfig()
 
 	if err != nil {

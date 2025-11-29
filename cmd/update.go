@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var pattern string
+
 // updateCmd represents the update command
 var updateCmd = &cobra.Command{
 	Use:   "update [flags]",
@@ -17,7 +19,20 @@ var updateCmd = &cobra.Command{
 			fmt.Printf(err.Error())
 			os.Exit(1)
 		}
-		regresql.Update(cwd)
+
+		files, err := expandPattern(pattern)
+
+		if err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+
+		if err := checkFiles(cwd, files); err != nil {
+			fmt.Printf(err.Error())
+			os.Exit(1)
+		}
+
+		regresql.Update(cwd, files)
 	},
 }
 
@@ -34,5 +49,5 @@ func init() {
 	// is called directly, e.g.:
 	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	updateCmd.Flags().StringVarP(&cwd, "cwd", "C", ".", "Change to Directory")
-
+	updateCmd.Flags().StringVarP(&pattern, "files", "F", "no", "Change to Directory")
 }
