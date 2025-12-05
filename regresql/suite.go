@@ -173,6 +173,12 @@ func (s *Suite) createExpectedResults(pguri string) error {
 	}
 	defer db.Close()
 
+	_, err = QueryDB(db, "select init()") // FIXME
+
+	if err != nil {
+		return fmt.Errorf("Failed to execute init(): %s", err)
+	}
+
 	fmt.Println("Writing expected Result Sets:")
 
 	for _, folder := range s.Dirs {
@@ -216,6 +222,13 @@ func (s *Suite) testQueries(pguri string) error {
 	if err != nil {
 		return fmt.Errorf("Failed to connect to '%s': %s\n", pguri, err)
 	}
+
+	_, err = QueryDB(db, "select init()") // FIXME
+
+	if err != nil {
+		return fmt.Errorf("Failed to execute init(): %s", err)
+	}
+
 	defer db.Close()
 
 	t := tap.New()
