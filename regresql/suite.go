@@ -201,7 +201,11 @@ func (s *Suite) createExpectedResults(pguri string) error {
 			if err != nil {
 				return err
 			}
-			p.Execute(db)
+
+			err = p.Execute(db)
+			if err != nil {
+				fmt.Printf("in file " + name + ": " + err.Error())
+			}
 			p.WriteResultSets(edir)
 
 			for _, rs := range p.ResultSets {
