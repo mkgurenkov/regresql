@@ -55,8 +55,9 @@ Actual Result File: '%s'
 %s`,
 					p.Query.Path,
 					p.Path,
-					p.Names[i],
-					p.Bindings[i],
+					//					p.Names[i],
+					//					p.Bindings[i],
+					"<name>", "<binding>",
 					expectedFilename,
 					rs.Filename,
 					diff))
